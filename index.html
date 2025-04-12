@@ -88,16 +88,22 @@
             padding: 10px 0;
             border-bottom: 1px solid #0288d1;
         }
-        #score, #remaining {
+        #score {
             font-size: 1.5rem;
             margin: 10px 0;
+            color: red; /* Ya configurado en rojo */
+        }
+        #remaining {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            color: black; /* Texto configurado en negro */
         }
     </style>
 </head>
 <body>
     <h1>Juego de Traducción</h1>
     <div id="game-container">
-        <p id="score" style="color: red;">Porcentaje de aciertos: 0%</p>
+        <p id="score">Porcentaje de aciertos: 0%</p>
         <p id="remaining">Palabras restantes: 0</p>
         <p id="word">Palabra en español: <span>----</span></p>
         <input type="text" id="answer" placeholder="Escribe en francés">
@@ -127,7 +133,6 @@
             const scoreElement = document.getElementById("score");
             const percentage = totalAnswers === 0 ? 0 : Math.round((correctAnswers / totalAnswers) * 100);
             scoreElement.textContent = `Porcentaje de aciertos: ${percentage}%`;
-            scoreElement.style.color = percentage > 50 ? "#0277bd" : "#d32f2f";
         }
 
         function updateRemaining() {
