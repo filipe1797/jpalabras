@@ -5,12 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Traducción</title>
     <style>
-        /* Estilos existentes */
+        @font-face {
+            font-family: 'Amasis MT Pro';
+            src: url('AMASISMTPRO-REGULAR.woff2') format('woff2'),
+                 url('AMASISMTPRO-REGULAR.woff') format('woff');
+        }
+        body {
+            font-family: 'Amasis MT Pro', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        #game-container {
+            background-color: #f5f5f5;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 30px auto;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        #word {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #37474f;
+        }
+        input[type="text"] {
+            width: calc(100% - 40px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #0288d1;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            background-color: #e3f2fd;
+            color: #37474f;
+        }
+        button {
+            background-color: #0288d1;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        button:hover {
+            background-color: #01579b;
+            transform: scale(1.05);
+        }
+        #feedback {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        #history {
+            margin-top: 40px;
+            text-align: left;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #004d40;
+            border-radius: 15px;
+            color: #e0f7fa;
+        }
+        #history h2 {
+            color: #4caf50;
+            text-align: center;
+        }
+        #history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #history li {
+            padding: 10px 0;
+            border-bottom: 1px solid #00796b;
+        }
+        #score, #remaining {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
     <h1>Juego de Traducción</h1>
     <div id="game-container">
+        <p id="score" style="color: red;">Porcentaje de aciertos: 0%</p>
         <p id="remaining">Palabras restantes: 0</p>
         <p id="word">Palabra en español: <span>----</span></p>
         <input type="text" id="answer" placeholder="Escribe en francés">
@@ -18,9 +104,8 @@
         <p id="feedback"></p>
     </div>
     <div id="history">
-        <h2>Historial de palabras falladas:</h2>
-        <ul id="wordHistory">
-        </ul>
+        <h2>Historial de palabras falladas</h2>
+        <ul id="wordHistory"></ul>
     </div>
     <script>
         const words = [
@@ -34,6 +119,15 @@
         let usedWords = [];
         let incorrectWords = [];
         let currentIndex = 0;
+        let totalAnswers = 0;
+        let correctAnswers = 0;
+
+        function updateScore() {
+            const scoreElement = document.getElementById("score");
+            const percentage = totalAnswers === 0 ? 0 : Math.round((correctAnswers / totalAnswers) * 100);
+            scoreElement.textContent = `Porcentaje de aciertos: ${percentage}%`;
+            scoreElement.style.color = percentage > 50 ? "#4caf50" : "#d32f2f";
+        }
 
         function updateRemaining() {
             const remainingElement = document.getElementById("remaining");
@@ -60,8 +154,10 @@
             const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
             const correctAnswer = words[currentIndex].fr;
             const isCorrect = userAnswer === correctAnswer;
+            totalAnswers++;
 
             if (isCorrect) {
+                correctAnswers++;
                 usedWords.push(words[currentIndex]);
             } else {
                 incorrectWords.push(words[currentIndex]);
@@ -72,10 +168,12 @@
             }
 
             document.getElementById("answer").value = "";
+            updateScore();
             loadNextWord();
         }
 
         loadNextWord();
+        updateScore();
         updateRemaining();
     </script>
 </body>
