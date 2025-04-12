@@ -13,7 +13,7 @@
         body {
             font-family: 'Amasis MT Pro', sans-serif;
             text-align: center;
-            background: linear-gradient(135deg, #4caf50, #81c784);
+            background: linear-gradient(135deg, #0277bd, #81d4fa);
             color: #ffffff;
             margin: 0;
             padding: 20px;
@@ -22,19 +22,20 @@
             font-size: 3rem;
             margin-bottom: 20px;
             color: #ffffff;
+            text-shadow: 2px 2px 4px #01579b;
         }
         #game-container {
-            background-color: #f5f5f5;
+            background-color: #f0f4c3;
             border-radius: 15px;
             padding: 30px;
             max-width: 600px;
             margin: 30px auto;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
         #word {
             font-size: 2rem;
             margin-bottom: 20px;
-            color: #37474f;
+            color: #01579b;
         }
         input[type="text"] {
             width: calc(100% - 40px);
@@ -43,8 +44,8 @@
             border: 2px solid #0288d1;
             border-radius: 10px;
             font-size: 1.2rem;
-            background-color: #e3f2fd;
-            color: #37474f;
+            background-color: #e1f5fe;
+            color: #01579b;
         }
         button {
             background-color: #0288d1;
@@ -71,12 +72,12 @@
             max-width: 700px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #004d40;
+            background-color: #01579b;
             border-radius: 15px;
-            color: #e0f7fa;
+            color: #e1f5fe;
         }
         #history h2 {
-            color: #4caf50;
+            color: #81d4fa;
             text-align: center;
         }
         #history ul {
@@ -85,7 +86,7 @@
         }
         #history li {
             padding: 10px 0;
-            border-bottom: 1px solid #00796b;
+            border-bottom: 1px solid #0288d1;
         }
         #score, #remaining {
             font-size: 1.5rem;
@@ -126,7 +127,7 @@
             const scoreElement = document.getElementById("score");
             const percentage = totalAnswers === 0 ? 0 : Math.round((correctAnswers / totalAnswers) * 100);
             scoreElement.textContent = `Porcentaje de aciertos: ${percentage}%`;
-            scoreElement.style.color = percentage > 50 ? "#4caf50" : "#d32f2f";
+            scoreElement.style.color = percentage > 50 ? "#0277bd" : "#d32f2f";
         }
 
         function updateRemaining() {
