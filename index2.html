@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Traducción</title>
+    <style>
+        /* Estilos existentes */
+    </style>
+</head>
+<body>
+    <h1>Juego de Traducción</h1>
+    <div id="game-container">
+        <p id="remaining">Palabras restantes: 0</p>
+        <p id="word">Palabra en español: <span>----</span></p>
+        <input type="text" id="answer" placeholder="Escribe en francés">
+        <button onclick="checkAnswer()">Confirmar</button>
+        <p id="feedback"></p>
+    </div>
+    <div id="history">
+        <h2>Historial de palabras falladas:</h2>
+        <ul id="wordHistory">
+        </ul>
+    </div>
+    <script>
+        const words = [
+            { es: "rojo", fr: "rouge" },
+            { es: "azul", fr: "bleu" },
+            { es: "verde", fr: "vert" },
+            { es: "amarillo", fr: "jaune" },
+            { es: "negro", fr: "noir" },
+        ];
+
+        let usedWords = [];
+        let incorrectWords = [];
+        let currentIndex = 0;
+
+        function updateRemaining() {
+            const remainingElement = document.getElementById("remaining");
+            const remainingCount = words.length - usedWords.length;
+            remainingElement.textContent = `Palabras restantes: ${remainingCount}`;
+        }
+
+        function loadNextWord() {
+            const availableWords = words.filter(word => !usedWords.includes(word));
+            if (availableWords.length === 0) {
+                alert("¡Has terminado el juego! Reiniciando...");
+                usedWords = [];
+                incorrectWords = [];
+                return loadNextWord();
+            }
+            const randomIndex = Math.floor(Math.random() * availableWords.length);
+            const selectedWord = availableWords[randomIndex];
+            currentIndex = words.indexOf(selectedWord);
+            document.querySelector("#word span").textContent = selectedWord.es;
+            updateRemaining();
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
+            const correctAnswer = words[currentIndex].fr;
+            const isCorrect = userAnswer === correctAnswer;
+
+            if (isCorrect) {
+                usedWords.push(words[currentIndex]);
+            } else {
+                incorrectWords.push(words[currentIndex]);
+                const wordHistory = document.getElementById("wordHistory");
+                const listItem = document.createElement("li");
+                listItem.textContent = `${words[currentIndex].es} = ${correctAnswer}`;
+                wordHistory.prepend(listItem);
+            }
+
+            document.getElementById("answer").value = "";
+            loadNextWord();
+        }
+
+        loadNextWord();
+        updateRemaining();
+    </script>
+</body>
+</html>
